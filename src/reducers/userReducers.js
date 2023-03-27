@@ -17,7 +17,8 @@ import { USER_LOGIN_FAIL,
      LOAD_USER_PROFILE_SUCCESS,
      LOAD_USER_PROFILE_FAIL,
      UPDATE_USER_PROFILE_SUCCESS,
-     UPDATE_USER_PROFILE_FAIL
+     UPDATE_USER_PROFILE_FAIL,
+     
 
 
 } from '../constants/userConstants'
@@ -76,6 +77,34 @@ export const userProfileUpdateReducer = (state = {}, action) => {
         return { loading: false, error: action.payload };
       case USER_UPDATE_PROFILE_RESET:
         return {};
+      default:
+        return state;
+    }
+  };
+
+  export const userUpdateProfileReducer = (state = {}, action) => {
+    switch (action.type) {
+      case USER_UPDATE_PROFILE_REQUEST:
+        return {
+          loading: true,
+        };
+  
+      case USER_UPDATE_PROFILE_SUCCESS:
+        return {
+          loading: false,
+          success: true,
+          user: action.payload,
+        };
+  
+      case USER_UPDATE_PROFILE_FAIL:
+        return {
+          loading: false,
+          error: action.payload,
+        };
+  
+      case USER_UPDATE_PROFILE_RESET:
+        return {}; /* RESET STATE */
+  
       default:
         return state;
     }

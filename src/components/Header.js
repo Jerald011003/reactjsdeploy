@@ -77,6 +77,9 @@ function Header() {
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to="/orderlist">
+                    <NavDropdown.Item>List of Orders</NavDropdown.Item>
+                  </LinkContainer>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout

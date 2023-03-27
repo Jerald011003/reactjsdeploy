@@ -18,6 +18,10 @@ import Checkout from "./pages/Checkout";
 // import UserProfile2 from './components/screens/UserProfile2';
 // import TheProfile from './components/screens/TheProfile';
 import TheFuckingProfile from './components/screens/TheFuckingProfile';
+import ShippingScreen from './components/screens/ShippingScreen';
+import PaymentScreen from './components/screens/PaymentScreen';
+import PlaceOrderScreen from './components/screens/PlaceOrderScreen';
+import OrderListScreen from './components/screens/OrderListScreen';
 
 function App() {
   return (
@@ -40,7 +44,16 @@ function App() {
           {/* <Route path="/profile2" component={UserProfile} exact /> */}
           {/* <Route path="/profile" component={TheProfile} exact /> */}
           <Route path="/profile" component={TheFuckingProfile} exact />
+       
           <Route path="/checkout" component={Checkout} exact />
+
+     
+          <Route path="/shipping" component={ShippingScreen} exact />
+          <Route path="/payment" component={PaymentScreen} exact />
+          <Route path="/placeorder" component={PlaceOrderScreen} exact />
+          <Route path="/orderlist" component={OrderListScreen} exact />
+
+
         </Container>
       </main>
     

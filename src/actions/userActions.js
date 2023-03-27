@@ -13,6 +13,7 @@ import { USER_LOGIN_FAIL,
     USER_UPDATE_FAIL
 } from '../constants/userConstants'
 
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 import {
     LOAD_USER_PROFILE_SUCCESS,
     LOAD_USER_PROFILE_FAIL,
@@ -109,6 +110,8 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
     dispatch({type: USER_LOGOUT})
     dispatch({type: USER_DETAILS_RESET})
+    dispatch({type: ORDER_LIST_MY_RESET})
+    
 }
 
 export const getUserDetails = (id) => async (dispatch, getState) => {

@@ -18,7 +18,24 @@ function OrderScreen({ match, location, history }) {
             dispatch(addToCart(productId, qty))
         }
     }, [dispatch, productId, qty])
+  
+  // const [sdkReady, setSdkReady] = useState(false);
 
+  // // PAYPAL BUTTONS
+  // const addPayPalScript = () => {
+  //   const script = document.createElement("script");
+  //   script.type = "text/javascript";
+  //   script.src =
+  //     "https://www.paypal.com/sdk/js?client-id=AYgflmsaM7ccNLPlKUiufIyw8-spOE4UuS5XyyTCvhzheA-1EUcZF9qGlgXBZaSKcP5BY0zTc9WgINKe";
+  //   script.async = true;
+  //   script.onload = () => {
+  //     setSdkReady(true);
+  //   };
+  //   document.body.appendChild(script);
+  // };
+
+  // const orderPay = useSelector((state) => state.orderPay);
+  // const { loading: loadingPay, success: successPay } = orderPay;
  
   return (
     <div className="App-body">

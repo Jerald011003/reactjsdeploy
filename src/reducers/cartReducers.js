@@ -1,4 +1,5 @@
-import { CART_ADD_ITEM ,CART_REMOVE_ITEM} from "../constants/cartConstants";
+import { CART_ADD_ITEM ,CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD,
+    CART_CLEAR_ITEMS,} from "../constants/cartConstants";
 
 
 export const cartReducer = (state={cartItems:[]},action)=>{
@@ -24,6 +25,30 @@ export const cartReducer = (state={cartItems:[]},action)=>{
                     cartItems: state.cartItems.filter(x => x.product !== action.payload)
                 }
 
+            
+                /* ShippingScreen COMPONENT */
+
+            case CART_SAVE_SHIPPING_ADDRESS:
+                return {
+                ...state,
+                shippingAddress: action.payload,
+                };
+
+            
+             /* PaymentScreen COMPONENT */
+
+            case CART_SAVE_PAYMENT_METHOD:
+                return {
+                ...state,
+                paymentMethod: action.payload,
+                };
+        
+            /* PlaceOrderScreen COMPONENT */
+            case CART_CLEAR_ITEMS:
+                return {
+                ...state,
+                cartItems: [],
+                };
 
     
         default:

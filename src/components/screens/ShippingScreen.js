@@ -1,124 +1,108 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Container, Row, Col } from "reactstrap";
-import CommonSection from "../components/UI/common-section/CommonSection";
-import Helmet from "../components/Helmet/Helmet";
 
-import "../styles/checkout.css";
+import { Link, Navigate, useHistory, useLocation, useNavigate, useParams } from 'react-router-dom'
 
-const Checkout = () => {
-  const [enterName, setEnterName] = useState("");
-  const [enterEmail, setEnterEmail] = useState("");
-  const [enterNumber, setEnterNumber] = useState("");
-  const [enterCountry, setEnterCountry] = useState("");
-  const [enterCity, setEnterCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+/* REACT BOOTSTRAP */
+import { Button, Form } from "react-bootstrap";
 
-  const shippingInfo = [];
-  const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
-  const shippingCost = 30;
+/* COMPONENTS */
+import FormContainer from "../../components/FormContainer";
+import CheckoutSteps from "../../components/CheckoutSteps";
 
-  const totalAmount = cartTotalAmount + Number(shippingCost);
+/* REACT - REDUX */
+import { useDispatch, useSelector } from "react-redux";
 
+/* ACTION CREATORS */
+import { saveShippingAddress } from "../../actions/cartActions";
+
+function ShippingScreen() {
+  // PULLING OUT SHIPPING ADDRESS FROM CART
+  const cart = useSelector((state) => state.cart);
+
+  const { shippingAddress = {} } = cart;
+  const [address, setAddress] = useState(shippingAddress.address || '');
+  const [city, setCity] = useState(shippingAddress.city);
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+  const [country, setCountry] = useState(shippingAddress.country);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  // HANDLERS
   const submitHandler = (e) => {
     e.preventDefault();
-    const userShippingAddress = {
-      name: enterName,
-      email: enterEmail,
-      phone: enterNumber,
-      country: enterCountry,
-      city: enterCity,
-      postalCode: postalCode,
-    };
 
-    shippingInfo.push(userShippingAddress);
-    console.log(shippingInfo);
+    /* FIRING OFF THE ACTION CREATORS USING DISPATCH TO SAVE ADDRESS */
+    dispatch(
+      saveShippingAddress({
+        address,
+        city,
+        postalCode,
+        country,
+      })
+    );
+
+    // PUSHING USER TO PAYMENTS PAGE AFTER SAVING ADDRESS
+    history.push('/payment')
   };
 
   return (
-    <Helmet title="Checkout">
-      <CommonSection title="Checkout" />
-      <section>
-        <Container>
-          <Row>
-            <Col lg="8" md="6">
-              <h6 className="mb-4">Shipping Address</h6>
-              <form className="checkout__form" onSubmit={submitHandler}>
-                <div className="form__group">
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    required
-                    onChange={(e) => setEnterName(e.target.value)}
-                  />
-                </div>
+    <FormContainer>
+      {/* <CheckoutSteps step1 step2 /> */}
 
-                <div className="form__group">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                    onChange={(e) => setEnterEmail(e.target.value)}
-                  />
-                </div>
-                <div className="form__group">
-                  <input
-                    type="number"
-                    placeholder="Phone number"
-                    required
-                    onChange={(e) => setEnterNumber(e.target.value)}
-                  />
-                </div>
-                <div className="form__group">
-                  <input
-                    type="text"
-                    placeholder="Country"
-                    required
-                    onChange={(e) => setEnterCountry(e.target.value)}
-                  />
-                </div>
-                <div className="form__group">
-                  <input
-                    type="text"
-                    placeholder="City"
-                    required
-                    onChange={(e) => setEnterCity(e.target.value)}
-                  />
-                </div>
-                <div className="form__group">
-                  <input
-                    type="number"
-                    placeholder="Postal code"
-                    required
-                    onChange={(e) => setPostalCode(e.target.value)}
-                  />
-                </div>
-                <button type="submit" className="addTOCart__btn">
-                  Payment
-                </button>
-              </form>
-            </Col>
+      <h1>Shipping</h1>
+      <Form onSubmit={submitHandler}>
+        <Form.Group controlId="address">
+          <Form.Label>Address</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Address"
+            value={address ? address : ""}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </Form.Group>
 
-            <Col lg="4" md="6">
-              <div className="checkout__bill">
-                <h6 className="d-flex align-items-center justify-content-between mb-3">
-                  Subtotal: <span>${cartTotalAmount}</span>
-                </h6>
-                <h6 className="d-flex align-items-center justify-content-between mb-3">
-                  Shipping: <span>${shippingCost}</span>
-                </h6>
-                <div className="checkout__total">
-                  <h5 className="d-flex align-items-center justify-content-between">
-                    Total: <span>${totalAmount}</span>
-                  </h5>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </Helmet>
+        <Form.Group controlId="city">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter City"
+            value={city ? city : ""}
+            onChange={(e) => setCity(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="postalCode">
+          <Form.Label>Postal Code</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Postal Code"
+            value={postalCode ? postalCode : ""}
+            onChange={(e) => setPostalCode(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="country">
+          <Form.Label>Country</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Country"
+            value={country ? country : ""}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+        </Form.Group>
+
+        <Button className="my-3" type="submit" variant="primary">
+          Continue
+        </Button>
+      </Form>
+    </FormContainer>
   );
-};
+}
 
-export default Checkout;
+export default ShippingScreen;
